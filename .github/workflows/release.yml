@@ -62,6 +62,9 @@ jobs:
             build/libs/plugin-*.spmod
           generate_release_notes: true
           body: |
+            > ⚠️ **本项目由 AI 生成**：代码 / 测试 / 文档由 AI 编程助手编写，人类负责需求、测试、验收与发布。
+            > 详见 [README 的「关于 AI 生成」](https://github.com/zhaozian81/salt-player-listen-stats#关于-ai-生成)。
+
             ## 安装
 
             1. 下载下面的 `plugin-com.spwmods.listenstats-${{ steps.version.outputs.version }}.zip`
@@ -70,3 +73,5 @@ jobs:
 
             > SPW 1.18.5 的加载器只扫描 `.zip` / `.jar`，不认 `.spmod`；
             > 更新版本前请先删掉 `workshop\plugins\plugin-com.spwmods.listenstats-*` 展开目录。
+            >
+            > 本产物由 GitHub Actions 从源码构建；发布前已把线上文件下载回来跑过 20 项宿主兼容性验证。

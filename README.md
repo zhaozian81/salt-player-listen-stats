@@ -3,6 +3,14 @@
 [![build](https://github.com/zhaozian81/salt-player-listen-stats/actions/workflows/build.yml/badge.svg)](https://github.com/zhaozian81/salt-player-listen-stats/actions/workflows/build.yml)
 [![release](https://img.shields.io/github/v/release/zhaozian81/salt-player-listen-stats)](https://github.com/zhaozian81/salt-player-listen-stats/releases)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![AI 生成](https://img.shields.io/badge/AI-%E7%94%9F%E6%88%90-orange)](#关于-ai-生成)
+
+> [!WARNING]
+> **本项目的代码、测试与文档（含本 README）由 AI 生成。**
+> 具体分工：AI 编程助手负责写代码 / 测试 / 文档 / CI 配置，人类负责提出需求、在真实环境测试、
+> 验收与发布。功能已在真实 SPW 1.18.5 上验证（安装、计数、报表、更新），但 AI 生成的代码仍可能
+> 存在未覆盖的问题，**使用前请自行评估风险**；发现 Bug 欢迎提 Issue。
+> 详见 [「关于 AI 生成」](#关于-ai-生成)。
 
 自动记录**每首歌听了多少次、累计听了多久**，并在插件配置页一键生成 HTML 报表。
 
@@ -169,6 +177,22 @@ docs/host-compat.md          宿主加载器逆向结论：为什么必须 .zip�
 
 > 记得给仓库加上 `salt-player-plugins` topic（上游 API 文档的发现机制），这样插件更容易被找到。
 
+## 关于 AI 生成
+
+本项目是一个**人机协作**的成果：AI 负责产出，人类负责把关和发布。为了让使用者心里有数，这里把话说清楚。
+
+| 项目 | 说明 |
+| --- | --- |
+| 生成方式 | 代码、测试、文档（含本 README）、GitHub Actions 配置均由 AI 编程助手（DeepSeek 模型驱动）编写，人类以对话方式提出需求、反馈问题、决定取舍 |
+| 人类负责的部分 | 需求定义与验收、在真实播放器上测试（安装 / 听歌 / 报表 / 更新）、发布决策、后续维护与答疑 |
+| 验证手段 | ① 15 个单元测试；② `tools/compat-check/` 用**真实 PF4J + 旧宿主 API** 对打包产物做 20 项加载验证；③ 在真实 SPW 1.18.5 上安装运行，用插件自己写的 `listen-stats.log` 确认加载 |
+| 发布产物验证 | 每次发布的 `.zip` 都是 CI 从源码构建的；本仓库发布前会把**线上那个文件下载回来**再跑一遍 20 项验证 |
+| 已知局限 | 旧版 API 拿不到歌曲时长，因此按固定 30 秒判定"听过"；启用插件时正在播放的那首歌不计入 |
+| 风险提示 | AI 生成的代码可能存在边界情况未覆盖、注释与实现不符等问题。请在使用前自行评估；欢迎提 Issue 或 PR（人类会审阅） |
+
+> 如果你对"AI 生成"有顾虑，可以不使用本项目；如果你愿意帮忙 review，我们非常欢迎 —— 仓库里的
+> `docs/host-compat.md` 与 `tools/compat-check/` 已经把关键结论、复现步骤都写明了，方便独立核对。
+
 ## License
 
 [Apache-2.0](LICENSE) © 2026 zhaozian81
@@ -180,6 +204,11 @@ docs/host-compat.md          宿主加载器逆向结论：为什么必须 .zip�
 **Listen Stats** is a plugin for *Salt Player for Windows* (SPW) that counts how many times each track
 was actually listened to (a play is counted after 30 seconds of effective playback) and renders an
 HTML report from the in-app plugin page.
+
+> ⚠️ **AI-generated project.** The code, tests, documentation and CI configuration were written by an
+> AI coding assistant; a human defined the requirements, tested it on a real SPW 1.18.5 installation,
+> and published the releases. Use at your own risk, and feel free to open an issue.
+> See [关于 AI 生成](#关于-ai-生成) for details (Chinese).
 
 Download the `.zip` from [Releases](https://github.com/zhaozian81/salt-player-listen-stats/releases),
 drop it into `%APPDATA%\Salt Player for Windows\workshop\plugins\`, enable it under
