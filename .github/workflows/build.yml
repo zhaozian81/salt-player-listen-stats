@@ -1,0 +1,44 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Test and package
+        run: |
+          # 在 Windows 上编辑仓库容易丢掉 gradlew 的可执行位（Linux 上会 exit code 126）
+          chmod +x gradlew
+          ./gradlew --no-daemon test pluginZip || {
+            echo "::warning::首次构建失败，30 秒后自动重试一次（JitPack 首次构建依赖经常超时）"
+            sleep 30
+            ./gradlew --no-daemon test pluginZip
+          }
+
+      - name: Show artifacts
+        run: ls -l build/libs
+
+      - name: Upload plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spw-plugin
+          path: |
+            build/libs/plugin-*.zip
+            build/libs/plugin-*.spmod
+          if-no-files-found: error

@@ -1,0 +1,17 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 兼容性验证的中间产物（含从宿主抽出的 API 类与第三方 jar，不要提交）
+tools/compat-check/unpacked/

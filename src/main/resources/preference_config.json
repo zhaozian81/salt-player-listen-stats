@@ -1,0 +1,38 @@
+{
+  "configs": [
+    {
+      "title": "听歌统计",
+      "config": "config.json",
+      "preferences": [
+        {
+          "type": "button",
+          "title": "查看统计摘要",
+          "summary": "显示总播放次数、累计收听时长与最常听的 5 首歌",
+          "arrow_type": "none",
+          "on_click": "com.spwmods.listenstats.StatsReport.showSummary"
+        },
+        {
+          "type": "button",
+          "title": "生成统计报告",
+          "summary": "生成 HTML 报告并尝试用浏览器打开",
+          "arrow_type": "link",
+          "on_click": "com.spwmods.listenstats.StatsReport.exportHtml"
+        },
+        {
+          "type": "button",
+          "title": "打开数据文件夹",
+          "summary": "查看统计数据文件与生成的 HTML 报告",
+          "arrow_type": "link",
+          "on_click": "com.spwmods.listenstats.StatsReport.openDataDir"
+        },
+        {
+          "type": "button",
+          "title": "清空统计",
+          "summary": "连点两次确认后清空全部记录（不可恢复）",
+          "arrow_type": "none",
+          "on_click": "com.spwmods.listenstats.StatsReport.resetStats"
+        }
+      ]
+    }
+  ]
+}

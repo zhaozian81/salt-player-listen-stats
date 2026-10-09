@@ -1,0 +1,16 @@
+[versions]
+kotlin = "2.3.0"
+junit = "4.13.2"
+pf4j = "3.12.0"
+# 上游 API（对应 SPW 1.19.0+）。本插件只使用它与 1.18.5 共有的成员，
+# 因此编译产物在 1.18.5 上也能加载，详见 docs/host-compat.md
+spw-workshop-api = "0.1.0-dev21"
+
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+pf4j = { group = "org.pf4j", name = "pf4j", version.ref = "pf4j" }
+spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
+
+[plugins]
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }

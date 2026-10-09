@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.github.Moriafly</groupId>
+  <artifactId>spw-workshop-api</artifactId>
+  <version>0.1.0-dev21</version>
+  <packaging>jar</packaging>
+
+  <name>SPW Workshop API (vendored)</name>
+  <description>
+    上游 Salt Player 创意工坊 API 的 0.1.0-dev21 版本，因 JitPack 上的同名产物是空 jar 而自带。
+    仅用于编译（compileOnly），不会打进插件分发包。见 local-repo/README.md
+  </description>
+  <url>https://github.com/Moriafly/spw-workshop-api</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!--
+    故意不声明上游 POM 里的 pf4j / compose-ui / compose-foundation / salt-ui 依赖：
+    本插件的构建自己声明 pf4j（compileOnly + kapt），并不需要 Compose 与 salt-ui，
+    这样 CI 不必为了编译 API 再拉几百 MB 的 Compose。
+  -->
+</project>

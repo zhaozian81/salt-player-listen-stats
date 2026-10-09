@@ -1,0 +1,11 @@
+# 统一换行，避免 Windows 上 checkout 出 CRLF 导致 Linux CI 跑不了 ./gradlew
+* text=auto
+
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+*.jar binary
+*.png binary
+*.zip binary

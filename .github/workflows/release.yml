@@ -1,0 +1,72 @@
+name: release
+
+on:
+  push:
+    tags: [ 'v*' ]
+  # 允许在网页上手动触发（Actions → release → Run workflow），
+  # 万一标签推送没触发、或想重跑一次发版，点一下就行
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve version
+        id: version
+        run: |
+          version=$(grep -oP '^version = "\K[^"]+' build.gradle.kts)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          echo "版本号：$version"
+
+      - name: Check tag matches version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          if [ "${{ steps.version.outputs.tag }}" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::标签名 (${GITHUB_REF_NAME}) 与 build.gradle.kts 里的 version (${{ steps.version.outputs.tag }}) 不一致"
+            exit 1
+          fi
+
+      - name: Test and package
+        run: |
+          # 在 Windows 上编辑仓库容易丢掉 gradlew 的可执行位（Linux 上会 exit code 126）
+          chmod +x gradlew
+          ./gradlew --no-daemon test pluginZip || {
+            echo "::warning::首次构建失败，30 秒后自动重试一次（依赖下载偶发超时）"
+            sleep 30
+            ./gradlew --no-daemon test pluginZip
+          }
+
+      - name: Create release with assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: 听歌统计 ${{ steps.version.outputs.tag }}
+          files: |
+            build/libs/plugin-*.zip
+            build/libs/plugin-*.spmod
+          generate_release_notes: true
+          body: |
+            ## 安装
+
+            1. 下载下面的 `plugin-com.spwmods.listenstats-${{ steps.version.outputs.version }}.zip`
+            2. 复制到 `%APPDATA%\Salt Player for Windows\workshop\plugins\`
+            3. 在「设置 → 创意工坊（模组管理）」里启用，然后完全退出并重开 SPW
+
+            > SPW 1.18.5 的加载器只扫描 `.zip` / `.jar`，不认 `.spmod`；
+            > 更新版本前请先删掉 `workshop\plugins\plugin-com.spwmods.listenstats-*` 展开目录。
