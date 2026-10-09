@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.spwmods.listenstats"
-version = "1.1.4"
+version = "1.1.5"
 
 val pluginVersion = version.toString()
 
@@ -48,7 +48,7 @@ spmod {
     PluginClass = "com.spwmods.listenstats.ListenStatsPlugin"
     PluginId = "com.spwmods.listenstats"
     PluginName = "听歌统计"
-    PluginDescription = "统计每首歌曲的播放次数与累计收听时长"
+    PluginDescription = "统计每首歌曲的播放次数与累计收听时长（AI 生成 · 人类测试发布）"
     PluginVersion = pluginVersion
     PluginProvider = "spwmods"
     PluginHasConfig = true
